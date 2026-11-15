@@ -639,6 +639,11 @@ public class GuiAtlas extends GuiComponent {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        // While the marker label screen is open, its text field gets the keys (arrows, backspace, -, =...)
+        // instead of the map's navigation and zoom shortcuts. Escape still closes the atlas.
+        if (this.markerFinalizer.getParent() != null && keyCode != GLFW.GLFW_KEY_ESCAPE) {
+            return super.keyPressed(keyCode, scanCode, modifiers);
+        }
         if (keyCode == GLFW.GLFW_KEY_UP) {
             navigateMap(0, navigateStep);
         } else if (keyCode == GLFW.GLFW_KEY_DOWN) {

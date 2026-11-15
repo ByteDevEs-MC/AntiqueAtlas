@@ -86,12 +86,16 @@ public class GuiMarkerFinalizer extends GuiComponent {
                     1F, 1F);
             closeChild();
         }).bounds(this.width / 2 - BUTTON_WIDTH - BUTTON_SPACING / 2, this.height / 2 + 40, BUTTON_WIDTH, 20).build());
-        addRenderableWidget(btnCancel = Button.builder(Component.literal("gui.cancel"), (button) -> {
+        addRenderableWidget(btnCancel = Button.builder(Component.translatable("gui.cancel"), (button) -> {
             closeChild();
         }).bounds(this.width / 2 + BUTTON_SPACING / 2, this.height / 2 + 40, BUTTON_WIDTH, 20).build());
-        textField = new EditBox(Minecraft.getInstance().font, (this.width - 200) / 2, this.height / 2 - 81, 200, 20, Component.literal("gui.antiqueatlas.marker.label"));
+        textField = new EditBox(Minecraft.getInstance().font, (this.width - 200) / 2, this.height / 2 - 81, 200, 20, Component.translatable("gui.antiqueatlas.marker.label"));
         textField.setEditable(true);
         textField.setValue("");
+        // The text field isn't one of this screen's widgets, so Minecraft never gives it focus on a click, and an
+        // unfocused EditBox ignores typing. It's the only text input here, so keep it focused the whole time.
+        textField.setCanLoseFocus(false);
+        textField.setFocused(true);
 
         scroller = new GuiScrollingContainer();
         scroller.setWheelScrollsHorizontally();
