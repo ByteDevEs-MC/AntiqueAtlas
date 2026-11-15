@@ -47,7 +47,7 @@ public class TileTextureMap {
 
         if (textureSet == null) {
             if (textureMap.remove(tileId) != null) {
-                Log.warn("Removing old texture for %d", tileId);
+                Log.warn("Removing old texture for %s", tileId);
             }
             return;
         }
@@ -81,10 +81,17 @@ public class TileTextureMap {
         }
 
         Optional<ResourceLocation> texture_set = guessFittingTextureSet(biome);
+        // Look the guessed name up now: a name with no loaded texture set returns null, and
+        // setTexture(null) would silently leave the biome with no texture at all.
+        TextureSet set = texture_set.map(name -> TextureSetMap.instance().getByName(name)).orElse(null);
 
-        if (texture_set.isPresent()) {
-            setAllTextures(id, TextureSetMap.instance().getByName(texture_set.get()));
+        if (set != null) {
+            setAllTextures(id, set);
             Log.info("Auto-registered standard texture set for biome %s: %s", id, texture_set.get());
+        } else if (texture_set.isPresent()) {
+            // The guess named a texture set that doesn't exist; use the placeholder and say so
+            Log.error("Texture set '%s' guessed for biome '%s' does not exist; using the placeholder texture.", texture_set.get(), id);
+            setAllTextures(id, getDefaultTexture());
         } else {
             Log.error("Failed to auto-register a standard texture set for the biome '%s'. This is most likely caused by errors in the TextureSet configurations, check your resource packs first before reporting it as an issue!", id.toString());
             setAllTextures(id, getDefaultTexture());
@@ -145,7 +152,7 @@ public class TileTextureMap {
         }
 
         if (biomeTag.is(BiomeTags.IS_SAVANNA)) {
-            return Optional.of(AntiqueAtlasMod.id("savana"));
+            return Optional.of(AntiqueAtlasMod.id("savanna"));
         }
 
         if (biomeTag.is(Tags.Biomes.IS_PLATEAU)) {
