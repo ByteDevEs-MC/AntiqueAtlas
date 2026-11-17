@@ -46,8 +46,10 @@ public class MarkersData extends SavedData {
 	 * across. */
 	public static final int CHUNK_STEP = 8;
 
-	/** Set of players this data has been sent to, only once after they connect. */
-	private final Set<Player> playersSentTo = new HashSet<>();
+	/** Set of players this data has been sent to, only once after they connect.
+	 * Weak, so players who logged out or died (each login and respawn is a new
+	 * player object) can be garbage collected instead of staying here forever. */
+	private final Set<Player> playersSentTo = Collections.newSetFromMap(new WeakHashMap<>());
 
 	private final AtomicInteger largestID = new AtomicInteger(0);
 
