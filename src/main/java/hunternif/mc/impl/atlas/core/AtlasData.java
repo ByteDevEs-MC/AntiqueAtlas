@@ -41,8 +41,10 @@ public class AtlasData extends SavedData {
 
     /**
      * Set of players this Atlas data has been sent to.
+     * Weak, so players who logged out or died (each login and respawn is a new
+     * player object) can be garbage collected instead of staying here forever.
      */
-    private final Set<Player> playersSentTo = new HashSet<>();
+    private final Set<Player> playersSentTo = Collections.newSetFromMap(new WeakHashMap<>());
 
     public AtlasData() {
     }
