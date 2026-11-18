@@ -28,13 +28,15 @@ Like the 1.12.2 AntiqueAtlasAutoMarker mod used by RLCraft Dregora, structures a
 
 ```
 [autoMarkers.dungeonsArise]
+	#Turn off to stop marking every structure in this category, whatever the switches below say.
+	enabled = true
 	#Illager Corsair (dungeons_arise:illager_corsair)
 	illagerCorsair = true
 	#Greenwood Pub (dungeons_arise:greenwood_pub)
 	greenwoodPub = false
 ```
 
-All switches are on by default. A switch can cover several ids, for example all four Mayan Temple variants; the comment above each switch lists them. Switches for mods that aren't installed do nothing. Villages are controlled by `gameplay.autoVillageMarkers`.
+All switches are on by default. `enabled = false` turns a whole category off; with it on, the individual switches decide. A switch can cover several ids, for example all four Mayan Temple variants; the comment above each switch lists them. Switches for mods that aren't installed do nothing. Villages are controlled by `gameplay.autoVillageMarkers`.
 
 For anything not in the categories, add lines to `extraStructureMarkers` in the form `structure, marker type, label`:
 

@@ -74,6 +74,8 @@ public class AntiqueAtlasConfig {
     //============ Automatic markers ============
     /** Catalog switches turned off in the config, as "category.switch" (see {@link AutoMarkerCatalog}). */
     public Set<String> disabledAutoMarkers = new HashSet<>();
+    /** Whole catalog categories turned off in the config, by category key. */
+    public Set<String> disabledAutoMarkerCategories = new HashSet<>();
     /** Extra entries on top of the catalog: "structure id or #tag, marker type, label". */
     public List<String> extraStructureMarkers = new ArrayList<>();
     /** Extra world generation features: "feature id, marker type, label". */
@@ -131,6 +133,8 @@ public class AntiqueAtlasConfig {
 
     /** One on/off value per catalog switch, keyed "category.switch". */
     private static final Map<String, ForgeConfigSpec.BooleanValue> AUTO_MARKER_SWITCHES = new LinkedHashMap<>();
+    /** One "enabled" value per catalog category, keyed by category. */
+    private static final Map<String, ForgeConfigSpec.BooleanValue> AUTO_MARKER_CATEGORIES = new LinkedHashMap<>();
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_STRUCTURE_MARKERS;
     private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_FEATURE_MARKERS;
     private static final ForgeConfigSpec.BooleanValue WAYSTONE_MARKERS;
@@ -263,12 +267,16 @@ public class AntiqueAtlasConfig {
 
         b.comment("Markers that are added to the map automatically, like the 1.12.2 AntiqueAtlasAutoMarker mod in RLCraft Dregora.",
                         "Structure and feature markers are global: they show on every atlas once that part of the map has been explored.",
-                        "Each structure has an on/off switch, grouped by mod. Switches for mods that aren't installed do nothing.",
+                        "Each structure has an on/off switch, grouped by mod, and each group has an enabled switch that turns the whole group off.",
+                        "Switches for mods that aren't installed do nothing.",
                         "Only structures generated after a switch is turned on get markers.")
                 .push("autoMarkers");
         // One sub-section per category, one switch per structure (or group of variants of one structure).
         for (AutoMarkerCatalog.Category category : AutoMarkerCatalog.CATEGORIES) {
             b.comment(category.comment()).push(category.key());
+            AUTO_MARKER_CATEGORIES.put(category.key(),
+                    b.comment("Turn off to stop marking every structure in this category, whatever the switches below say.")
+                            .define("enabled", true));
             for (AutoMarkerCatalog.Switch sw : category.switches()) {
                 AUTO_MARKER_SWITCHES.put(category.key() + "." + sw.key(),
                         b.comment(sw.description()).define(sw.key(), sw.enabledByDefault()));
@@ -341,6 +349,9 @@ public class AntiqueAtlasConfig {
         c.minimapShowCoordinates = MINIMAP_SHOW_COORDINATES.get();
         c.minimapShowBiome = MINIMAP_SHOW_BIOME.get();
 
+        AUTO_MARKER_CATEGORIES.forEach((key, value) -> {
+            if (!value.get()) c.disabledAutoMarkerCategories.add(key);
+        });
         AUTO_MARKER_SWITCHES.forEach((key, value) -> {
             if (!value.get()) c.disabledAutoMarkers.add(key);
         });

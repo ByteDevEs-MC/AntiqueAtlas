@@ -70,6 +70,8 @@ public final class AutoMarkers {
 
         // Catalog switches that are turned on.
         for (AutoMarkerCatalog.Category category : AutoMarkerCatalog.CATEGORIES) {
+            // A turned-off category skips all of its switches.
+            if (AntiqueAtlasMod.CONFIG.disabledAutoMarkerCategories.contains(category.key())) continue;
             for (AutoMarkerCatalog.Switch sw : category.switches()) {
                 if (AntiqueAtlasMod.CONFIG.disabledAutoMarkers.contains(category.key() + "." + sw.key())) continue;
                 ResourceLocation marker = markerId(sw.markerType());
