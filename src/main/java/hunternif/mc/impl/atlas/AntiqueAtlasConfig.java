@@ -1,10 +1,15 @@
 package hunternif.mc.impl.atlas;
 
 import hunternif.mc.impl.atlas.client.gui.GuiAtlas;
+import hunternif.mc.impl.atlas.structure.AutoMarkerCatalog;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Antique Atlas settings. The rest of the mod reads the public fields directly
@@ -67,203 +72,14 @@ public class AntiqueAtlasConfig {
     public boolean minimapShowBiome = false;
 
     //============ Automatic markers ============
-    public List<String> structureMarkers = new ArrayList<>(DEFAULT_STRUCTURE_MARKERS);
-    public List<String> featureMarkers = new ArrayList<>(DEFAULT_FEATURE_MARKERS);
+    /** Catalog switches turned off in the config, as "category.switch" (see {@link AutoMarkerCatalog}). */
+    public Set<String> disabledAutoMarkers = new HashSet<>();
+    /** Extra entries on top of the catalog: "structure id or #tag, marker type, label". */
+    public List<String> extraStructureMarkers = new ArrayList<>();
+    /** Extra world generation features: "feature id, marker type, label". */
+    public List<String> extraFeatureMarkers = new ArrayList<>();
     public boolean waystoneMarkers = true;
     public String waystoneMarkerType = "antiqueatlas:waystone";
-
-    /** Defaults for {@link #structureMarkers}: "structure id or #tag, marker type, label". */
-    public static final List<String> DEFAULT_STRUCTURE_MARKERS = List.of(
-                "minecraft:end_city, end_city, ",
-                "minecraft:mansion, mansion, Woodland Mansion",
-                "minecraft:monument, monument, Ocean Monument",
-                "minecraft:stronghold, dungeon, Stronghold",
-                "minecraft:ancient_city, dungeon, Ancient City",
-                "minecraft:fortress, sword, Nether Fortress",
-                "minecraft:bastion_remnant, bastion, Bastion Remnant",
-                "minecraft:pillager_outpost, tower, Pillager Outpost",
-                "minecraft:desert_pyramid, dungeon, Desert Pyramid",
-                "minecraft:jungle_pyramid, dungeon, Jungle Temple",
-                "minecraft:swamp_hut, wizardtower, Witch Hut",
-                "rec_migrated:p_aeriveth, google, Aeriveth",
-                "rec_migrated:p_icecity, google, Ice City",
-                "rec_migrated:p_sanctuaryofadmys, google, Sanctuary of Admys",
-                "rec_migrated:p_townmeridor, google, Meridor",
-                "rec_migrated:rlcraft_2_9_update_build, google, RLCraft 2.9 Update Build",
-                "rec_migrated:shivaxi, google, Shivaxi Monument",
-                "rec_migrated:p_wizardtower, wizardtower, Wizard Tower",
-                "rec_migrated:witchtower, wizardtower, Witch Tower",
-                "rec_migrated:threetowers, quadtower, Three Towers",
-                "rec_migrated:rlcraft_4towers, quadtower, Four Towers",
-                "rec_migrated:p_skycastle, diamond, Sky Castle",
-                "rec_migrated:p_cathedralofmadness, dungeon, Cathedral of Madness",
-                "rec_migrated:p_templeoferolith, dungeon, Temple of Erolith",
-                "rec_migrated:p_mayantemple1, dungeon, Mayan Temple",
-                "rec_migrated:p_mayantemple2, dungeon, Mayan Temple",
-                "rec_migrated:p_mayantemple3, dungeon, Mayan Temple",
-                "rec_migrated:p_mayantemple4, dungeon, Mayan Temple",
-                "rec_migrated:p_deserttemple, dungeon, Desert Temple",
-                "rec_migrated:p_snowtemple, dungeon, Snow Temple",
-                "rec_migrated:p_desertdungeon, dungeon, Desert Dungeon",
-                "rec_migrated:p_treedungeon, dungeon, Tree Dungeon",
-                "rec_migrated:p_witchdungeon, dungeon, Witch Dungeon",
-                "rec_migrated:p_largeship, ship, Large Ship",
-                "rec_migrated:p_smallship, ship, Small Ship",
-                "rec_migrated:flagship, ship, Flagship",
-                "rec_migrated:piratehideout, ship, Pirate Hideout",
-                "rec_migrated:p_lighthouse, tower, Lighthouse",
-                "rec_migrated:p_seasideport, village, Seaside Port",
-                "rec_migrated:p_plainscity, village, Plains City",
-                "rec_migrated:p_islandcity, village, Island City",
-                "rec_migrated:p_junglevillage, village, Jungle Village",
-                "rec_migrated:p_deqing, village, Deqing",
-                "rec_migrated:rlcraft_smalltown, village, Small Town",
-                "rec_migrated:rlcraft_deserttown, village, Desert Town",
-                "rec_migrated:rlcraft_largeundergroundtown, village, Underground Town",
-                "rec_migrated:rlcraft_foreststronghold, sword, Forest Stronghold",
-                "rec_migrated:rlcraft_friendlyoutpost, village, Friendly Outpost",
-                "rec_migrated:rlcraft_stranding_vikingmansion, village, Viking Mansion",
-                "rec_migrated:rlcraft_nethercity_church, dungeon, Nether City Church",
-                "rec_migrated:rlcraft_netherportal1_chiom, nether_portal, Nether Portal",
-                "rec_migrated:rlcraft_netherportal2_felix, nether_portal, Nether Portal",
-                "rec_migrated:p_ancientteleporter, nether_portal, Ancient Teleporter",
-                "rec_migrated:rlcraft_defiled_cult, defiled, Defiled Cult",
-                "rec_migrated:rlcraft_defiled_cult_og, defiled, Defiled Cult",
-                "rec_migrated:p_cultisland, skull, Cult Island",
-                "rec_migrated:p_forestguardian, dungeon, Forest Guardian",
-                "rec_migrated:p_spookyhouse, skull, Spooky House",
-                "rec_migrated:rlcraft_end_megacity_start, village, End Megacity",
-                "rec_migrated:rlcraft_end_endislandcastle, dungeon, End Island Castle",
-                "rec_migrated:rlcraft_end_flipped_castle, dungeon, Flipped Castle",
-                "rec_migrated:rlcraft_end_spiral_portal_tower, tower, Spiral Portal Tower",
-                "rec_migrated:rlcraft_end_battletower_broken, tower, Broken Battle Tower",
-                "rec_migrated:rlcraft_ruinsparkour, ruins, Parkour Ruins",
-                "rec_migrated:smallfortruinsjapanese, ruins, Fort Ruins",
-                "rec_migrated:hobbithole, village, Hobbit Hole",
-                "fbt:tall_battletower, tower, Battle Tower",
-                "fbt:deep_battletower, tower, Battle Tower",
-                "fbt:mega_battletower, megatower, Mega Battle Tower",
-                "iceandfire:gorgon_temple, dungeon, Gorgon Temple",
-                "iceandfire:graveyard, tomb, Graveyard",
-                "iceandfire:mausoleum, tomb, Mausoleum",
-                "dldungeonsjbg:dldungeon, dungeon, Dungeon",
-                "dungeoncrawl:dungeon, dungeon, Dungeon Crawl",
-                "seafaring:mossy_ocean_dungeon, dungeon, Ocean Dungeon",
-                "seafaring:mossy_ocean_dungeon2, dungeon, Ocean Dungeon",
-                "seafaring:sandstone_ocean_dungeon, dungeon, Ocean Dungeon",
-                "seafaring:sandstone_ocean_dungeon2, dungeon, Ocean Dungeon",
-                "seafaring:undergrounddungeon, dungeon, Underground Dungeon",
-                "dungeons_arise:abandoned_temple, dungeon, Abandoned Temple",
-                "dungeons_arise:aviary, tower, Aviary",
-                "dungeons_arise:bandit_towers, tower, Bandit Towers",
-                "dungeons_arise:bandit_village, village, Bandit Village",
-                "dungeons_arise:ceryneian_hind, dungeon, Ceryneian Hind",
-                "dungeons_arise:coliseum, sword, Coliseum",
-                "dungeons_arise:foundry, dungeon, Foundry",
-                "dungeons_arise:heavenly_challenger, tower, Heavenly Challenger",
-                "dungeons_arise:heavenly_conqueror, tower, Heavenly Conqueror",
-                "dungeons_arise:heavenly_rider, tower, Heavenly Rider",
-                "dungeons_arise:illager_corsair, ship, Illager Corsair",
-                "dungeons_arise:illager_fort, sword, Illager Fort",
-                "dungeons_arise:illager_galley, ship, Illager Galley",
-                "dungeons_arise:infested_temple, dungeon, Infested Temple",
-                "dungeons_arise:keep_kayra, dungeon, Keep Kayra",
-                "dungeons_arise:lighthouse, tower, Lighthouse",
-                "dungeons_arise:mechanical_nest, dungeon, Mechanical Nest",
-                "dungeons_arise:mining_system, pickaxe, Mining System",
-                "dungeons_arise:monastery, dungeon, Monastery",
-                "dungeons_arise:mushroom_mines, pickaxe, Mushroom Mines",
-                "dungeons_arise:mushroom_village, village, Mushroom Village",
-                "dungeons_arise:plague_asylum, dungeon, Plague Asylum",
-                "dungeons_arise:scorched_mines, pickaxe, Scorched Mines",
-                "dungeons_arise:shiraz_palace, dungeon, Shiraz Palace",
-                "dungeons_arise:small_blimp, ship, Blimp",
-                "dungeons_arise:thornborn_towers, tower, Thornborn Towers",
-                "dungeons_arise:typhon, ship, Typhon",
-                "dungeons_arise:undead_pirate_ship, ship, Undead Pirate Ship",
-                "cataclysm:abandoned_spire, tower, Abandoned Spire",
-                "cataclysm:abandoned_temple, dungeon, Abandoned Temple",
-                "cataclysm:abandoned_village, village, Abandoned Village",
-                "cataclysm:acropolis, dungeon, Acropolis",
-                "cataclysm:amethyst_nest, cave, Amethyst Nest",
-                "cataclysm:ancient_factory, dungeon, Ancient Factory",
-                "cataclysm:burning_arena, dungeon, Burning Arena",
-                "cataclysm:cursed_pyramid, dungeon, Cursed Pyramid",
-                "cataclysm:desert_occupied_village, village, Occupied Village",
-                "cataclysm:desert_site, ruins, Desert Site",
-                "cataclysm:frosted_prison, dungeon, Frosted Prison",
-                "cataclysm:ruined_citadel, dungeon, Ruined Citadel",
-                "cataclysm:soul_black_smith, anvil, Soul Blacksmith",
-                "cataclysm:sunken_city, dungeon, Sunken City",
-                "ebwizardry:wizard_tower, wizardtower, Wizard Tower",
-                "ebwizardry:library_ruins, book, Library Ruins",
-                "ebwizardry:earth_shrine, ruins, Earth Shrine",
-                "ebwizardry:fire_shrine, ruins, Fire Shrine",
-                "ebwizardry:healing_shrine, ruins, Healing Shrine",
-                "ebwizardry:ice_shrine, ruins, Ice Shrine",
-                "ebwizardry:lightning_shrine, ruins, Lightning Shrine",
-                "ebwizardry:necromancy_shrine, ruins, Necromancy Shrine",
-                "ebwizardry:sorcery_shrine, ruins, Sorcery Shrine",
-                "illagerwarship:warship, ship, Illager Warship",
-                "takesapillage:bastille, sword, Bastille",
-                "takesapillage:pillager_camp, sword, Pillager Camp",
-                "totw_additions:end_tower, tower, Tower",
-                "totw_additions:nether_tower, tower, Tower",
-                "lios_outlandish_villages:hobbit_village, village, Hobbit Village",
-                "lios_outlandish_villages:spiral_tower_village, village, Spiral Tower Village",
-                "lios_outlandish_villages:spiral_tower_village_sea, village, Spiral Tower Village",
-                "biomeswevegone:village/forgotten, village, Village",
-                "biomeswevegone:village/pumpkin_patch, village, Village",
-                "biomeswevegone:village/red_rock, village, Village",
-                "biomeswevegone:village/salem, village, Village",
-                "biomeswevegone:village/skyris, village, Village",
-                "biomeswevegone:village/swamp, village, Village",
-                "betterend:end_village, village, End Village",
-                "betternether:nether_city, village, Nether City",
-                "betternether:jungle_temples, dungeon, Nether Jungle Temple",
-                "mes:phantom_citadel, dungeon, Phantom Citadel",
-                "mes:starlight_voyager, ship, Starlight Voyager",
-                "mes:mega_ship, ship, End Ship",
-                "mes:mega_ship_basic, ship, End Ship",
-                "mes:mega_ship_deepslate, ship, End Ship",
-                "mes:mega_ship_deepslate_2, ship, End Ship",
-                "mes:mega_ship_deepslate_3, ship, End Ship",
-                "mes:mega_ship_crashed, ship, Crashed End Ship",
-                "mes:mega_ship_crashed_2, ship, Crashed End Ship",
-                "mes:mega_ship_crashed_deepslate, ship, Crashed End Ship",
-                "mns:mega_fortress, dungeon, Mega Fortress",
-                "mns:dragon_arena, sword, Dragon Arena",
-                "mns:large_arena, sword, Arena",
-                "mvs:castle_ruins, ruins, Castle Ruins",
-                "mvs:cathedral, dungeon, Cathedral",
-                "mvs:cartographer_tower, tower, Cartographer Tower",
-                "additionalstructures:maya_temple, dungeon, Maya Temple",
-                "additionalstructures:pyramid_1, dungeon, Pyramid",
-                "additionalstructures:pyramid_2, dungeon, Pyramid",
-                "additionalstructures:pyramid_dungeon, dungeon, Pyramid Dungeon",
-                "additionalstructures:sphinx, dungeon, Sphinx",
-                "additionalstructures:underground_dungeon_1, dungeon, Underground Dungeon",
-                "additionalstructures:underground_dungeon_2, dungeon, Underground Dungeon",
-                "additionalstructures:end_dungeon_1, dungeon, End Dungeon",
-                "additionalstructures:nether_dungeon_1, dungeon, Nether Dungeon",
-                "additionalstructures:nether_dungeon_2, dungeon, Nether Dungeon",
-                "additionalstructures:nether_dungeon_3, dungeon, Nether Dungeon"
-    );
-
-    /** Defaults for {@link #featureMarkers}: "feature id, marker type, label". */
-    public static final List<String> DEFAULT_FEATURE_MARKERS = List.of(
-                "iceandfire:fire_dragon_roost, dragon_red, Fire Dragon Roost",
-                "iceandfire:ice_dragon_roost, dragon_blue, Ice Dragon Roost",
-                "iceandfire:lightning_dragon_roost, dragon_gold, Lightning Dragon Roost",
-                "iceandfire:fire_dragon_cave, dragon_red, Fire Dragon Cave",
-                "iceandfire:ice_dragon_cave, dragon_blue, Ice Dragon Cave",
-                "iceandfire:lightning_dragon_cave, dragon_gold, Lightning Dragon Cave",
-                "iceandfire:hydra_cave, dragon_green, Hydra Cave",
-                "iceandfire:cyclops_cave, cave, Cyclops Cave",
-                "iceandfire:siren_island, skull, Siren Island",
-                "iceandfire:myrmex_hive_desert, monsterspawner, Myrmex Hive",
-                "iceandfire:myrmex_hive_jungle, monsterspawner, Myrmex Hive"
-    );
 
     public static final ForgeConfigSpec SPEC;
 
@@ -313,8 +129,10 @@ public class AntiqueAtlasConfig {
     private static final ForgeConfigSpec.BooleanValue MINIMAP_SHOW_COORDINATES;
     private static final ForgeConfigSpec.BooleanValue MINIMAP_SHOW_BIOME;
 
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> STRUCTURE_MARKERS;
-    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> FEATURE_MARKERS;
+    /** One on/off value per catalog switch, keyed "category.switch". */
+    private static final Map<String, ForgeConfigSpec.BooleanValue> AUTO_MARKER_SWITCHES = new LinkedHashMap<>();
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_STRUCTURE_MARKERS;
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EXTRA_FEATURE_MARKERS;
     private static final ForgeConfigSpec.BooleanValue WAYSTONE_MARKERS;
     private static final ForgeConfigSpec.ConfigValue<String> WAYSTONE_MARKER_TYPE;
 
@@ -444,17 +262,27 @@ public class AntiqueAtlasConfig {
         b.pop();
 
         b.comment("Markers that are added to the map automatically, like the 1.12.2 AntiqueAtlasAutoMarker mod in RLCraft Dregora.",
-                        "Structure and feature markers are global: they show on every atlas once that part of the map has been explored.")
+                        "Structure and feature markers are global: they show on every atlas once that part of the map has been explored.",
+                        "Each structure has an on/off switch, grouped by mod. Switches for mods that aren't installed do nothing.",
+                        "Only structures generated after a switch is turned on get markers.")
                 .push("autoMarkers");
-        STRUCTURE_MARKERS = b.comment("Structures that get a marker when they generate. One entry per line: structure, marker type, label.",
+        // One sub-section per category, one switch per structure (or group of variants of one structure).
+        for (AutoMarkerCatalog.Category category : AutoMarkerCatalog.CATEGORIES) {
+            b.comment(category.comment()).push(category.key());
+            for (AutoMarkerCatalog.Switch sw : category.switches()) {
+                AUTO_MARKER_SWITCHES.put(category.key() + "." + sw.key(),
+                        b.comment(sw.description()).define(sw.key(), sw.enabledByDefault()));
+            }
+            b.pop();
+        }
+        EXTRA_STRUCTURE_MARKERS = b.comment("Extra structures that get a marker, for anything not in the categories below. One entry per line: structure, marker type, label.",
                         "The structure is a structure id (like minecraft:stronghold) or a structure tag starting with # (like #minecraft:village).",
                         "The marker type is any marker from atlas/markers (like dungeon, tower, ship, google); without a namespace it means antiqueatlas:.",
-                        "The label can be empty. Remove a line to stop marking that structure. Villages are controlled by gameplay.autoVillageMarkers.",
+                        "The label can be empty. An entry for an id that is also in a category below replaces that category's marker.",
                         "Only structures generated after this is set get markers.")
-                .defineListAllowEmpty(List.of("structureMarkers"), () -> DEFAULT_STRUCTURE_MARKERS, o -> o instanceof String);
-        FEATURE_MARKERS = b.comment("World generation features (not structures) that get a marker when they generate, in the same format: feature, marker type, label.",
-                        "Ice and Fire's dragon roosts and caves, hydra and cyclops caves and siren islands are features.")
-                .defineListAllowEmpty(List.of("featureMarkers"), () -> DEFAULT_FEATURE_MARKERS, o -> o instanceof String);
+                .defineListAllowEmpty(List.of("extraStructureMarkers"), ArrayList::new, o -> o instanceof String);
+        EXTRA_FEATURE_MARKERS = b.comment("Extra world generation features (not structures) that get a marker, in the same format: feature, marker type, label.")
+                .defineListAllowEmpty(List.of("extraFeatureMarkers"), ArrayList::new, o -> o instanceof String);
         WAYSTONE_MARKERS = b.comment("If the Waystones mod is installed: when you activate a waystone, mark it with its name on every atlas you carry.")
                 .define("waystoneMarkers", d.waystoneMarkers);
         WAYSTONE_MARKER_TYPE = b.comment("The marker type used for waystones.")
@@ -513,8 +341,11 @@ public class AntiqueAtlasConfig {
         c.minimapShowCoordinates = MINIMAP_SHOW_COORDINATES.get();
         c.minimapShowBiome = MINIMAP_SHOW_BIOME.get();
 
-        c.structureMarkers = new ArrayList<>(STRUCTURE_MARKERS.get());
-        c.featureMarkers = new ArrayList<>(FEATURE_MARKERS.get());
+        AUTO_MARKER_SWITCHES.forEach((key, value) -> {
+            if (!value.get()) c.disabledAutoMarkers.add(key);
+        });
+        c.extraStructureMarkers = new ArrayList<>(EXTRA_STRUCTURE_MARKERS.get());
+        c.extraFeatureMarkers = new ArrayList<>(EXTRA_FEATURE_MARKERS.get());
         c.waystoneMarkers = WAYSTONE_MARKERS.get();
         c.waystoneMarkerType = WAYSTONE_MARKER_TYPE.get();
         return c;

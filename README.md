@@ -24,17 +24,29 @@ All settings are in `config/antiqueatlas-common.toml`:
 
 ### Automatic markers
 
-Like the 1.12.2 AntiqueAtlasAutoMarker mod used by RLCraft Dregora, structures and other places are marked on every atlas once they generate. Each line of `structureMarkers` in `[autoMarkers]` is `structure, marker type, label`:
+Like the 1.12.2 AntiqueAtlasAutoMarker mod used by RLCraft Dregora, structures and other places are marked on every atlas once they generate. `[autoMarkers]` has one sub-section per mod or group of structures (`vanilla`, `rlcraftTowns`, `rlcraftDungeons`, `rlcraftTowers`, `rlcraftShips`, `rlcraftPortalsAndRuins`, `battleTowers`, `iceAndFire`, `dungeonsArise`, `cataclysm`, `wizardry`, `illagers`, `moogs`, `villages`, `otherDungeons`, `additionalStructures`), with an on/off switch for each structure:
 
 ```
-structureMarkers = ["minecraft:stronghold, dungeon, Stronghold", "#minecraft:village, village, Village", "fbt:mega_battletower, megatower, Mega Battle Tower"]
+[autoMarkers.dungeonsArise]
+	#Illager Corsair (dungeons_arise:illager_corsair)
+	illagerCorsair = true
+	#Greenwood Pub (dungeons_arise:greenwood_pub)
+	greenwoodPub = false
+```
+
+All switches are on by default. A switch can cover several ids, for example all four Mayan Temple variants; the comment above each switch lists them. Switches for mods that aren't installed do nothing. Villages are controlled by `gameplay.autoVillageMarkers`.
+
+For anything not in the categories, add lines to `extraStructureMarkers` in the form `structure, marker type, label`:
+
+```
+extraStructureMarkers = ["somemod:big_castle, dungeon, Big Castle", "#somemod:camps, sword, Camp"]
 ```
 
 - The structure is a structure id, or a structure tag starting with `#`. `/locate structure` lists the ids.
 - The marker type is a marker from `atlas/markers` (anvil, bed, book, cave, defiled, diamond, dragon_blue, dragon_gold, dragon_green, dragon_purple, dragon_red, dungeon, end_city, farm, google, lycanites, mansion, megatower, monsterspawner, monument, nether_portal, parasite, pickaxe, quadtower, red_x_large, red_x_small, ruins, scroll, ship, skull, sword, tomb, tower, tracks, village, waystone, wizardtower).
-- The label can be empty.
+- The label can be empty. An extra line for an id that is also in a category replaces that category's marker and label.
 
-`featureMarkers` works the same way for world generation features that aren't structures, such as Ice and Fire's dragon roosts and caves. The defaults cover the structures of the RLCraft 1.20.1 pack; ids of mods that aren't installed are simply ignored. Only places that generate after a line is added get markers.
+`extraFeatureMarkers` works the same way for world generation features that aren't structures. Only places that generate after a switch is turned on or a line is added get markers.
 
 Biome textures are chosen from biome tags, so modded biomes get a fitting texture automatically. Resource packs can assign their own textures; see the [wiki on editing textures](https://github.com/Hunternif/AntiqueAtlas/wiki/Editing-Textures).
 

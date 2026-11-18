@@ -68,8 +68,22 @@ public final class AutoMarkers {
                     new Rule(AntiqueAtlasMod.id("village"), Component.translatable("gui.antiqueatlas.marker.village"))));
         }
 
-        for (String line : AntiqueAtlasMod.CONFIG.structureMarkers) {
-            ParsedLine parsed = parse(line, "structureMarkers");
+        // Catalog switches that are turned on.
+        for (AutoMarkerCatalog.Category category : AutoMarkerCatalog.CATEGORIES) {
+            for (AutoMarkerCatalog.Switch sw : category.switches()) {
+                if (AntiqueAtlasMod.CONFIG.disabledAutoMarkers.contains(category.key() + "." + sw.key())) continue;
+                ResourceLocation marker = markerId(sw.markerType());
+                for (AutoMarkerCatalog.Target target : sw.targets()) {
+                    Rule rule = new Rule(marker, Component.literal(target.label()));
+                    ResourceLocation id = new ResourceLocation(target.id());
+                    (sw.feature() ? FEATURE_RULES : STRUCTURE_RULES).put(id, rule);
+                }
+            }
+        }
+
+        // Extra entries from the config; these replace a catalog rule for the same id.
+        for (String line : AntiqueAtlasMod.CONFIG.extraStructureMarkers) {
+            ParsedLine parsed = parse(line, "extraStructureMarkers");
             if (parsed == null) continue;
             if (parsed.isTag) {
                 STRUCTURE_TAG_RULES.add(Map.entry(TagKey.create(Registries.STRUCTURE, parsed.id), parsed.rule));
@@ -77,11 +91,11 @@ public final class AutoMarkers {
                 STRUCTURE_RULES.put(parsed.id, parsed.rule);
             }
         }
-        for (String line : AntiqueAtlasMod.CONFIG.featureMarkers) {
-            ParsedLine parsed = parse(line, "featureMarkers");
+        for (String line : AntiqueAtlasMod.CONFIG.extraFeatureMarkers) {
+            ParsedLine parsed = parse(line, "extraFeatureMarkers");
             if (parsed == null) continue;
             if (parsed.isTag) {
-                AntiqueAtlasMod.LOG.warn("Antique Atlas config: featureMarkers doesn't support tags, ignoring \"{}\"", line);
+                AntiqueAtlasMod.LOG.warn("Antique Atlas config: extraFeatureMarkers doesn't support tags, ignoring \"{}\"", line);
                 continue;
             }
             FEATURE_RULES.put(parsed.id, parsed.rule);
@@ -103,13 +117,18 @@ public final class AutoMarkers {
         if (isTag) idText = idText.substring(1);
         ResourceLocation id = ResourceLocation.tryParse(idText);
         String markerText = parts[1].trim();
-        ResourceLocation marker = markerText.contains(":") ? ResourceLocation.tryParse(markerText) : AntiqueAtlasMod.id(markerText);
+        ResourceLocation marker = markerId(markerText);
         if (id == null || marker == null) {
             AntiqueAtlasMod.LOG.warn("Antique Atlas config: {} entry \"{}\" has an invalid id or marker type", option, line);
             return null;
         }
         String label = parts.length > 2 ? parts[2].trim() : "";
         return new ParsedLine(id, isTag, new Rule(marker, Component.literal(label)));
+    }
+
+    /** A marker type; without a namespace it means antiqueatlas:. */
+    private static ResourceLocation markerId(String text) {
+        return text.contains(":") ? ResourceLocation.tryParse(text) : AntiqueAtlasMod.id(text);
     }
 
     // ---------------------------------------------------------------- structures
