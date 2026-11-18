@@ -136,7 +136,10 @@ public final class AutoMarkerCatalog {
 
             new Category("battleTowers", "Battle Towers.", List.of(
                     sm("battleTower", "tower", "Battle Tower", "fbt:tall_battletower", "fbt:deep_battletower"),
-                    s("megaBattleTower", "megatower", "fbt:mega_battletower", "Mega Battle Tower"))),
+                    s("megaBattleTower", "megatower", "fbt:mega_battletower", "Mega Battle Tower"),
+                    s("obsidianBattleTower", "tower", "fbt:obsidian_battletower", "Obsidian Battle Tower"),
+                    s("netherBattleTower", "tower", "fbt:nether_battletower", "Nether Battle Tower"),
+                    s("endBattleTower", "tower", "fbt:end_battletower", "End Battle Tower"))),
 
             new Category("iceAndFire", "Ice and Fire. Dragon roosts and caves, the hydra and cyclops caves, siren islands and myrmex hives are world generation features.", List.of(
                     s("gorgonTemple", "dungeon", "iceandfire:gorgon_temple", "Gorgon Temple"),
