@@ -7,6 +7,10 @@ import java.util.List;
  * categories. Each {@link Switch} is one on/off option in the config; it can cover several ids
  * (for example all four Mayan Temple variants). Ids of mods that aren't installed are simply ignored.
  * Anything not listed here can still be added with the extraStructureMarkers / extraFeatureMarkers lists.
+ * <p>
+ * Based on Nischhelm's AntiqueAtlasAutoMarker for 1.12.2 (https://github.com/Nischhelm/AntiqueAtlasAutoMarker),
+ * which has the same per-structure settings (on/off, marker icon, label). The list, icons and labels follow
+ * its config as set up in RLCraft Dregora.
  */
 public final class AutoMarkerCatalog {
 

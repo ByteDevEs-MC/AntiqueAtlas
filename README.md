@@ -64,7 +64,7 @@ Releases are on the [releases page](https://github.com/Flankrat/AntiqueAtlas/rel
 
 ## Changes in this version
 
-This is a fork of [ByteDevEs-MC/AntiqueAtlas](https://github.com/ByteDevEs-MC/AntiqueAtlas) (Antique Atlas 7.1.2 for 1.20.1), which is based on [Hunternif/AntiqueAtlas](https://github.com/Hunternif/AntiqueAtlas). The commit history has the details. It has its own version numbers, starting again at 1.0.0 (the first Forge-only build), since it has changed too much to follow Antique Atlas 7's. In short:
+This is a fork of [ByteDevEs-MC/AntiqueAtlas](https://github.com/ByteDevEs-MC/AntiqueAtlas) (Antique Atlas 7.1.2 for 1.20.1), which is a fork of [AntiqueAtlasTeam/AntiqueAtlas](https://github.com/AntiqueAtlasTeam/AntiqueAtlas) (Antique Atlas 5 to 7), the continuation of the original [Hunternif/AntiqueAtlas](https://github.com/Hunternif/AntiqueAtlas). The commit history has the details. It has its own version numbers, starting again at 1.0.0 (the first Forge-only build), since it has changed too much to follow Antique Atlas 7's. In short:
 
 - **Forge-only.** The Architectury multi-loader project (common, Forge and Fabric parts, Fabric's Yarn names) is now a single ForgeGradle project using Mojang's official names.
 - **No library mods.**
@@ -81,11 +81,11 @@ This is a fork of [ByteDevEs-MC/AntiqueAtlas](https://github.com/ByteDevEs-MC/An
 
 **Antique Atlas** was created by **Hunternif**, who wrote most of the mod and drew its textures.
 
-**Antique Atlas 5 to 7** (Minecraft 1.14 to 1.18.2, Fabric and Forge) were maintained by **tyra314** and the AntiqueAtlasTeam. Much of the code from that time is by **Haven King** (including the networking), with many more changes from **Stereowalker**, **OsipXD** and **asiekierka**.
+**Antique Atlas 5 to 7** (Minecraft 1.14 to 1.18.2, Fabric and Forge) were maintained by **tyra314** and the [AntiqueAtlasTeam](https://github.com/AntiqueAtlasTeam/AntiqueAtlas). Much of the code from that time is by **Haven King** (including the networking), with many more changes from **Stereowalker**, **OsipXD** and **asiekierka**.
 
 **The corner minimap** comes from **Kenkron**'s *Antique Atlas Overlay*, which was merged into Antique Atlas for 1.12.2 and is what RLCraft and RLCraft Dregora show. Its settings and defaults in this version follow RLCraft Dregora.
 
-**The automatic markers** follow **Nischhelm**'s *AntiqueAtlasAutoMarker* and **Fonnymunkey**'s *AARCAddon* for 1.12.2, as set up in RLCraft Dregora. The marker icons in `textures/gui/markers/artsy` are by **Star Artsy** and the ones in `textures/gui/markers/knightgallade` by **Knight Gallade**, made for RLCraft and RLCraft Dregora. Star Artsy's icons are used with permission. The code that places the markers is new in this version.
+**The automatic markers** are based on **Nischhelm**'s [AntiqueAtlasAutoMarker](https://github.com/Nischhelm/AntiqueAtlasAutoMarker) (AAAM) for 1.12.2, which builds on **Fonnymunkey**'s [AARC Addon](https://www.curseforge.com/minecraft/mc-mods/antiqueatlas-recurrentcomplex-compatability). From AAAM come the idea of global structure markers that show up once the player explores that part of the map, the per-structure settings (an on/off switch, marker icon and label for each structure, which the `[autoMarkers]` switches follow), and waystone markers. The structure list, icons and labels follow AAAM's config as set up in RLCraft Dregora. The marker icons in `textures/gui/markers/artsy` are by **Star Artsy** and the ones in `textures/gui/markers/knightgallade` by **Knight Gallade**, made for RLCraft and RLCraft Dregora, and taken from AAAM. Star Artsy's icons are used with permission. The code that places the markers is new in this version, since AAAM's 1.12.2 mixins don't carry over to 1.20.1.
 
 **The 1.20.1 port** this fork is based on is by **ByteDevEs** ([ByteDevEs-MC/AntiqueAtlas](https://github.com/ByteDevEs-MC/AntiqueAtlas)).
 
